@@ -36,10 +36,6 @@ const userSchema = new Schema(
   }
 );
 
-let validateEmail = function (email) {
-  let;
-};
-
 userSchema.virtual("friendCount").get(function () {
   return `${this.friends}`;
 });
