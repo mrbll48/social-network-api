@@ -20,7 +20,8 @@ module.exports = {
   // get single thought
   async getOneThought(req, res) {
     try {
-      const thought = await Thought.findOne({ _id: req.params.thoughtId });
+      console.log(req.params.id);
+      const thought = await Thought.findOne({ _id: req.params.id });
 
       console.log(thought);
 
@@ -34,18 +35,22 @@ module.exports = {
   // create new thought
   async newThought(req, res) {
     try {
-      console.log("hello");
+      console.log(req.body);
+
       const thought = await Thought.create(req.body);
 
+      console.log(thought);
+      console.log(thought.username);
+
       const thoughtArr = User.findOneAndUpdate(
-        { _id: req.body.userId },
+        { _id: req.body.id },
         { $addToSet: { thoughts: thought._id } },
         { new: true }
       );
 
-      console.log(thought, thoughtArr);
+      console.log(thoughtArr);
 
-      res.json(thoughtArr);
+      res.json(thought);
     } catch (err) {
       console.log(err);
 
@@ -55,8 +60,9 @@ module.exports = {
   // update a thought by id
   async updateThought(req, res) {
     try {
+      console.log(req.params.id);
       const thought = await Thought.findOneAndUpdate(
-        { _id: req.params.thoughtId },
+        { _id: req.params.id },
         { $set: req.body },
         { runValidators: true, new: true }
       );
@@ -69,23 +75,26 @@ module.exports = {
   // delete a thought by id
   async deleteThought(req, res) {
     try {
+      console.log(req.params.id);
       const thought = await Thought.findOneAndDelete({
-        _id: req.params.thoughtId,
+        _id: req.params.id,
       });
+
+      console.log(thought);
 
       const userThought = User.findOneAndUpdate(
         {
-          thoughts: req.params.thoughtId,
+          thoughts: req.params.id,
         },
         {
-          $pull: { thoughts: req.params.thoughtId },
+          $pull: { thoughts: req.params.id },
         },
         {
           new: true,
         }
       );
 
-      console.log(thought, userThought);
+      // console.log(userThought);
 
       res.json(thought);
     } catch (err) {
@@ -105,6 +114,13 @@ module.exports = {
 
   async deleteReaction(req, res) {
     try {
-    } catch (error) {}
+      console.log(req.params.id);
+
+      const reaction = await Thought.findOneAndUpdate;
+    } catch (error) {
+      console.log(err);
+
+      res.status(500).json(err);
+    }
   },
 };
