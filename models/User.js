@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const { isEmail } = require("validator");
+// const { isEmail } = require("validator");
 
 const userSchema = new Schema(
   {
@@ -8,12 +8,12 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      validate: [
-        (val) => {
-          isEmail;
-        },
-        "Please enter a valid email",
-      ],
+      // validate: [
+      //   (val) => {
+      //     isEmail;
+      //   },
+      //   "Please enter a valid email",
+      // ],
     },
     thoughts: [
       {

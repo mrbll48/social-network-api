@@ -76,4 +76,32 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  async getFriends(req, res) {
+    try {
+      const friends = await User.findOne({ _id: req.params.id });
+
+      console.log(friends);
+
+      res.json(friends);
+    } catch (err) {
+      console.log(err);
+
+      res.json(err);
+    }
+  },
+
+  async deleteFriends(req, res) {
+    try {
+      const friends = await User.findOneAndDelete({ _id: req.params.id });
+
+      console.log(friends);
+
+      res.json(friends);
+    } catch (err) {
+      console.log(err);
+
+      res.json(err);
+    }
+  },
 };

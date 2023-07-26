@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongoose").Types;
 const { Thought, User, Reaction } = require("../models");
+const { findOneAndUpdate } = require("../models/Thought");
 
 module.exports = {
   // get all thoughts
@@ -33,11 +34,18 @@ module.exports = {
   // create new thought
   async newThought(req, res) {
     try {
+      console.log("hello");
       const thought = await Thought.create(req.body);
 
-      console.log(thought);
+      const thoughtArr = User.findOneAndUpdate(
+        { _id: req.body.userId },
+        { $addToSet: { thoughts: thought._id } },
+        { new: true }
+      );
 
-      res.json(thought);
+      console.log(thought, thoughtArr);
+
+      res.json(thoughtArr);
     } catch (err) {
       console.log(err);
 
@@ -64,10 +72,39 @@ module.exports = {
       const thought = await Thought.findOneAndDelete({
         _id: req.params.thoughtId,
       });
+
+      const userThought = User.findOneAndUpdate(
+        {
+          thoughts: req.params.thoughtId,
+        },
+        {
+          $pull: { thoughts: req.params.thoughtId },
+        },
+        {
+          new: true,
+        }
+      );
+
+      console.log(thought, userThought);
+
+      res.json(thought);
     } catch (err) {
       console.log(err);
 
       res.status(500).json(err);
     }
+  },
+
+  async createReaction(req, res) {
+    try {
+      const reaction = await Thought.findOneAndUpdate({});
+    } catch (error) {
+      console.log(err);
+    }
+  },
+
+  async deleteReaction(req, res) {
+    try {
+    } catch (error) {}
   },
 };
