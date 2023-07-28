@@ -20,6 +20,8 @@ module.exports = {
   // get single thought
   async getOneThought(req, res) {
     try {
+      console.log(req.params.id);
+
       const thought = await Thought.findOne({ _id: req.params.id });
 
       console.log(thought);
@@ -58,6 +60,7 @@ module.exports = {
   // update a thought by id
   async updateThought(req, res) {
     try {
+      console.log(req.params.id);
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.id },
         { $set: req.body },
@@ -74,9 +77,12 @@ module.exports = {
   // delete a thought by id
   async deleteThought(req, res) {
     try {
+      console.log(req.params.id);
       const thought = await Thought.findOneAndDelete({
         _id: req.params.id,
       });
+
+      console.log(thought);
 
       const userThought = User.findOneAndUpdate(
         {
@@ -90,7 +96,7 @@ module.exports = {
         }
       );
 
-      console.log(thought, userThought);
+      // console.log(userThought);
 
       res.json(thought);
     } catch (err) {
