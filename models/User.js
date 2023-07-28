@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-// const { isEmail } = require("validator");
+const { isEmail } = require("validator");
 
 const userSchema = new Schema(
   {
@@ -8,17 +8,18 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      // validate: [
-      //   (val) => {
-      //     isEmail;
-      //   },
-      //   "Please enter a valid email",
-      // ],
+      // match: /.\@\w /
+      validate: [
+        (val) => {
+          isEmail;
+        },
+        "Please enter a valid email",
+      ],
     },
     thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Thoughts",
+        ref: "Thought",
       },
     ],
     friends: [
@@ -40,6 +41,6 @@ userSchema.virtual("friendCount").get(function () {
   return `${this.friends}`;
 });
 
-const User = model("user", userSchema);
+const User = model("User", userSchema);
 
 module.exports = User;
