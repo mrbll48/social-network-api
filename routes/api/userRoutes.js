@@ -7,7 +7,6 @@ const {
   deleteUser,
   addFriend,
   deleteFriends,
-  addFriend,
 } = require("../../controllers/userController");
 
 router.route("/").get(getUsers).post(createUser);

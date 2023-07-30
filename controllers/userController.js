@@ -86,9 +86,7 @@ module.exports = {
         { new: true }
       );
 
-      console.log(friend);
-
-      res.json(friend);
+      res.json(friends);
     } catch (err) {
       console.log(err);
 
